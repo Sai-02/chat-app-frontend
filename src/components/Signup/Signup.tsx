@@ -1,13 +1,51 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
+import { toast } from "react-hot-toast";
+import axios from "axios";
+import { getSignUpAPI } from "../../utils/api";
+import { storeAccessToken } from "../../utils/helpers";
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUserName] = useState("");
-  const [phone, setPhone] = useState("");
-  const registerUser = () => {};
+  const validateUserData = () => {
+    if (name === "") {
+      toast.error("Name can't be empty");
+      return true;
+    }
+    if (password === "") {
+      toast.error("Password can't be empty");
+      return true;
+    }
+    if (email === "") {
+      toast.error("Email can't be empty");
+      return true;
+    }
+    if (username === "") {
+      toast.error("Username can't be empty");
+      return true;
+    }
+  };
+  const registerUser = async () => {
+    if (validateUserData()) return;
+    try {
+      const user = await axios.post(getSignUpAPI(), {
+        name,
+        username,
+        password,
+        phone_no: Math.random() * 100000000,
+        email,
+      });
+
+      console.log(user);
+      storeAccessToken(user?.data?.token);
+    } catch (e: any) {
+      console.log(e);
+      toast.error(e.response.data.msg);
+      // toast.error("Something went wrong!!");
+    }
+  };
   return (
     <div
       className="text-center w-screen h-screen"
