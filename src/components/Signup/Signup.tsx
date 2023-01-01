@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import axios from "axios";
-import { getSignUpAPI } from "../../utils/api";
-import { storeAccessToken } from "../../utils/helpers";
+import { getSignUpAPI } from "../../shared/utils/api";
+import { storeAccessToken } from "../../shared/utils/helpers";
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

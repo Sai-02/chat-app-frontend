@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Signup from "./components/Signup/Signup";
-import { URL_PATHS } from "./utils/constant";
+import { URL_PATHS } from "./shared/utils/constant";
 const RoutesContainer = () => {
   return (
     <BrowserRouter>
