@@ -5,6 +5,7 @@ import axios from "axios";
 import { getSignUpAPI } from "../../utils/api";
 import { STATUS } from "../../utils/constant";
 import { storeAccessToken } from "../../utils/helpers";
+import { toast } from "react-hot-toast";
 
 // Define a type for the slice state
 interface IAuthState {
@@ -39,8 +40,12 @@ const registerUser = createAsyncThunk(
         email,
       });
       return user.data;
-    } catch (e) {
-      console.log(e);
+    } catch (e: any) {
+      if (e.response.data.msg) {
+        toast.error(e.response.data.msg);
+      } else {
+        toast.error("Something went wrong");
+      }
     }
   }
 );

@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useAppDispatch } from "../../shared/redux/hooks";
 import { authActions } from "../../shared/redux/slices/authSlice";
+import { URL_PATHS } from "../../shared/utils/constant";
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUserName] = useState("");
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const validateUserData = () => {
     if (name === "") {
       toast.error("Name can't be empty");
@@ -30,7 +32,7 @@ const Signup = () => {
   const registerUser = async () => {
     if (validateUserData()) return;
     try {
-      dispatch(
+      await dispatch(
         authActions.registerUser({
           email,
           name,
@@ -38,10 +40,10 @@ const Signup = () => {
           username,
         })
       );
+      toast.success("Signed up!!");
+      navigate(URL_PATHS.DASHBOARD);
     } catch (e: any) {
       console.log(e);
-      toast.error(e.response.data.msg);
-      // toast.error("Something went wrong!!");
     }
   };
   return (
