@@ -1,6 +1,7 @@
 export enum URL_PATHS {
   SIGNUP = "/signup",
   DASHBOARD = "/dashboard",
+  LOGIN="/login"
 }
 
 export enum CONSTANT_VALUE {

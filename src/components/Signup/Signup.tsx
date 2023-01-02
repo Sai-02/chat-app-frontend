@@ -130,7 +130,7 @@ const Signup = () => {
           </div>
           <div className="mt-[35px] text-[#10182F] text-[14px]">
             Already have an account?{" "}
-            <Link to="/login">
+            <Link to={URL_PATHS.LOGIN}>
               <span className="text-[#306BF3] cursor-pointer">Log in</span>
             </Link>
           </div>
