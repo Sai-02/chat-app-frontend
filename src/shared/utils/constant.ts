@@ -3,5 +3,12 @@ export enum URL_PATHS {
 }
 
 export enum CONSTANT_VALUE {
-  AUTH_TOKEN="authToken",
+  AUTH_TOKEN = "authToken",
+}
+
+export enum STATUS {
+  IDLE = "IDLE",
+  LOADING = "LOADING",
+  FAILURE = "FAILURE",
+  SUCCESS = "SUCCESS",
 }

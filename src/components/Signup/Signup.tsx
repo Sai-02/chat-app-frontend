@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import axios from "axios";
-import { getSignUpAPI } from "../../shared/utils/api";
-import { storeAccessToken } from "../../shared/utils/helpers";
+import { useAppDispatch } from "../../shared/redux/hooks";
+import { authActions } from "../../shared/redux/slices/authSlice";
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUserName] = useState("");
+  const dispatch = useAppDispatch();
   const validateUserData = () => {
     if (name === "") {
       toast.error("Name can't be empty");
@@ -30,16 +30,14 @@ const Signup = () => {
   const registerUser = async () => {
     if (validateUserData()) return;
     try {
-      const user = await axios.post(getSignUpAPI(), {
-        name,
-        username,
-        password,
-        phone_no: Math.random() * 100000000,
-        email,
-      });
-
-      console.log(user);
-      storeAccessToken(user?.data?.token);
+      dispatch(
+        authActions.registerUser({
+          email,
+          name,
+          password,
+          username,
+        })
+      );
     } catch (e: any) {
       console.log(e);
       toast.error(e.response.data.msg);
