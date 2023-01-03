@@ -1,11 +1,40 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../shared/redux/hooks";
+import { authActions } from "../../shared/redux/slices/authSlice";
 import { URL_PATHS } from "../../shared/utils/constant";
 
 const Login = () => {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const loginUser = () => {};
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const loginUser = async () => {
+    if (validateUserData()) return;
+    try {
+      await dispatch(
+        authActions.loginUser({
+          password,
+          username,
+        })
+      );
+      toast.success("Logged in   !!");
+      navigate(URL_PATHS.DASHBOARD);
+    } catch (e: any) {
+      console.log(e);
+    }
+  };
+  const validateUserData = () => {
+    if (username.trim() === "") {
+      toast.error("Username can't be empty");
+      return true;
+    }
+    if (password.trim() === "") {
+      toast.error("Password can't be empty");
+      return true;
+    }
+  };
   return (
     <div
       className="text-center w-screen h-screen"

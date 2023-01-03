@@ -1,8 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../store";
 import axios from "axios";
-import { getSignUpAPI } from "../../utils/api";
+import { getLoginAPI, getSignUpAPI } from "../../utils/api";
 import { STATUS } from "../../utils/constant";
 import { storeAccessToken } from "../../utils/helpers";
 import { toast } from "react-hot-toast";
@@ -46,6 +45,32 @@ const registerUser = createAsyncThunk(
       } else {
         toast.error("Something went wrong");
       }
+      throw e;
+    }
+  }
+);
+
+interface ILoginUserPayload {
+  username: string;
+  password: string;
+}
+const loginUser = createAsyncThunk(
+  "auth/login",
+  async (payload: ILoginUserPayload, { rejectWithValue }) => {
+    const { username, password } = payload;
+    try {
+      const user = await axios.post(getLoginAPI(), {
+        username,
+        password,
+      });
+      return user.data;
+    } catch (e: any) {
+      if (e.response.data.msg) {
+        toast.error(e.response.data.msg);
+      } else {
+        toast.error("Something went wrong");
+      }
+      throw e;
     }
   }
 );
@@ -76,6 +101,19 @@ export const authSlice = createSlice({
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.status = STATUS.FAILURE;
+        throw action.error;
+      })
+      .addCase(loginUser.pending, (state, action) => {
+        state.status = STATUS.LOADING;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.status = STATUS.SUCCESS;
+        state.authToken = action?.payload?.token;
+        storeAccessToken(action?.payload?.token);
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.status = STATUS.FAILURE;
+        throw action.error;
       });
   },
 });
@@ -83,6 +121,7 @@ export const authSlice = createSlice({
 export const authActions = {
   ...authSlice.actions,
   registerUser,
+  loginUser,
 };
 
 export default authSlice.reducer;
