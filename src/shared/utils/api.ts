@@ -6,3 +6,10 @@ export const getSignUpAPI = () => {
 export const getLoginAPI = () => {
   return `${baseUrl}/auth/login`;
 };
+
+export const createChatAPI = () => {
+  return `${baseUrl}/chat/create`;
+};
+export const getChatListAPI = () => {
+  return `${baseUrl}/chat/list`;
+};
