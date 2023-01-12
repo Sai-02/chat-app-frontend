@@ -11,6 +11,7 @@ interface IChatState {
   chatList: Array<any>;
   chatListLength: Number;
   status: string;
+  activeChatID: string;
 }
 
 // Define the initial state using that type
@@ -18,6 +19,7 @@ const initialState: IChatState = {
   chatList: [],
   chatListLength: 0,
   status: STATUS.IDLE,
+  activeChatID: "",
 };
 
 const getChatList = createAsyncThunk("chat/list", async () => {
@@ -41,7 +43,11 @@ const getChatList = createAsyncThunk("chat/list", async () => {
 export const chatSlice = createSlice({
   name: "chat",
   initialState,
-  reducers: {},
+  reducers: {
+    updateActiveChatID: (state, action: PayloadAction<string>) => {
+      state.activeChatID = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getChatList.pending, (state, action) => {
