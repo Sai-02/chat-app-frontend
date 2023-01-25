@@ -1,6 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./slices/authSlice";
 import chatReducer from "./slices/chatSlice";
+import { enableMapSet } from "immer";
+
+// For making Map work in chatSlice.ts
+enableMapSet();
 export const store = configureStore({
   reducer: {
     auth: authReducer,

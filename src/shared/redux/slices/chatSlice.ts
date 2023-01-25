@@ -1,7 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { createChatAPI, getChatListAPI } from "../../utils/api";
+import {
+  createChatAPI,
+  getChatListAPI,
+  getMessagesListAPI,
+} from "../../utils/api";
 import { STATUS } from "../../utils/constant";
 import { toast } from "react-hot-toast";
 import { getAccessToken } from "../../utils/helpers";
@@ -12,6 +16,7 @@ interface IChatState {
   chatListLength: Number;
   status: string;
   activeChatID: string;
+  chatMap: Map<any, any>;
 }
 
 // Define the initial state using that type
@@ -20,6 +25,7 @@ const initialState: IChatState = {
   chatListLength: 0,
   status: STATUS.IDLE,
   activeChatID: "",
+  chatMap: new Map(),
 };
 
 const getChatList = createAsyncThunk("chat/list", async () => {
@@ -39,6 +45,30 @@ const getChatList = createAsyncThunk("chat/list", async () => {
     throw e;
   }
 });
+
+interface IGetMessageListPayload {
+  chatID: String;
+}
+const getMessageList = createAsyncThunk(
+  "message/list",
+  async (payload: IGetMessageListPayload) => {
+    try {
+      const res = await axios.get(getMessagesListAPI(payload.chatID), {
+        headers: {
+          authorization: `Bearer ${getAccessToken()}`,
+        },
+      });
+      return res.data;
+    } catch (e: any) {
+      if (e?.response?.data?.msg) {
+        toast.error(e.response.data.msg);
+      } else {
+        toast.error("Something went wrong");
+      }
+      throw e;
+    }
+  }
+);
 
 export const chatSlice = createSlice({
   name: "chat",
@@ -60,6 +90,20 @@ export const chatSlice = createSlice({
       })
       .addCase(getChatList.rejected, (state, action) => {
         state.status = STATUS.FAILURE;
+      })
+      .addCase(getMessageList.pending, (state, action) => {
+        state.status = STATUS.LOADING;
+      })
+      .addCase(getMessageList.fulfilled, (state, action) => {
+        state.status = STATUS.SUCCESS;
+        if (action.payload.messages) {
+          const map = new Map(state.chatMap);
+          map.set(state.activeChatID, action.payload.messages);
+          state.chatMap = map;
+        }
+      })
+      .addCase(getMessageList.rejected, (state, action) => {
+        state.status = STATUS.FAILURE;
       });
   },
 });
@@ -67,6 +111,7 @@ export const chatSlice = createSlice({
 export const chatActions = {
   ...chatSlice.actions,
   getChatList,
+  getMessageList,
 };
 
 export default chatSlice.reducer;

@@ -1,7 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../shared/redux/hooks";
+import { chatActions } from "../../shared/redux/slices/chatSlice";
 import ChatInput from "./ChatInput";
+import ChatWindowLoading from "./ChatWindowLoading";
+import Message from "./Message";
+import NoChatSelected from "./NoChatSelected";
+import NoMessageScreen from "./NoMessageScreen";
 
 const ChatWindow = () => {
+  const [loading, setLoading] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const activeChatID = useAppSelector((state) => state.chat.activeChatID);
+  const chatMap = useAppSelector((state) => state.chat.chatMap);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    loadMessageOfActiveChat();
+  }, [activeChatID]);
+  const loadMessageOfActiveChat = async () => {
+    if (activeChatID !== "") {
+      console.log(chatMap);
+      if (chatMap.has(activeChatID)) {
+        const messageArray: any = chatMap.get(activeChatID);
+        setMessages(messageArray);
+        return;
+      }
+      setLoading(true);
+      try {
+        const data = await dispatch(
+          chatActions.getMessageList({ chatID: activeChatID })
+        );
+        let messageArray = [];
+        if (data.payload?.messages) messageArray = data.payload?.messages;
+        setMessages(messageArray);
+      } catch (e) {
+        console.log(e);
+      }
+      setLoading(false);
+    }
+  };
+  const isNoChatSelected = () => activeChatID === "";
+  const isMessagesEmpty = () => messages.length === 0;
   return (
     <>
       <div
@@ -10,19 +48,21 @@ const ChatWindow = () => {
           height: "calc(100vh - 132px)",
         }}
       >
-        {[...Array(10)].map((val, index) => {
-          return (
-            <div className={`text-black grid `}>
-              <div
-                className={`rounded-full  bg-[#6CB4EE] py-2 px-4 max-w-[60%] shadow ${
-                  index % 2 == 0 ? "justify-self-start" : "justify-self-end"
-                }`}
-              >
-                Hi Good morino
-              </div>
-            </div>
-          );
-        })}
+        <>
+          {isNoChatSelected() ? (
+            <NoChatSelected />
+          ) : loading ? (
+            <ChatWindowLoading />
+          ) : isMessagesEmpty() ? (
+            <NoMessageScreen />
+          ) : (
+            <>
+              {messages.map((message, index) => {
+                return <Message key={index} messageInfo={message} />;
+              })}
+            </>
+          )}
+        </>
       </div>
       <ChatInput />
     </>
