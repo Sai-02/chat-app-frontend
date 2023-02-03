@@ -5,5 +5,6 @@ export const storeAccessToken = (accessToken: any) => {
 };
 
 export const getAccessToken = () => {
-  return localStorage.getItem(CONSTANT_VALUE.AUTH_TOKEN);
+  const token = localStorage.getItem(CONSTANT_VALUE.AUTH_TOKEN);
+  return token ? token : "";
 };
