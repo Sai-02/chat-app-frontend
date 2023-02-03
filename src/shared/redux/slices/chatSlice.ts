@@ -5,6 +5,7 @@ import {
   createChatAPI,
   getChatListAPI,
   getMessagesListAPI,
+  getSendMessageAPI,
 } from "../../utils/api";
 import { STATUS } from "../../utils/constant";
 import { toast } from "react-hot-toast";
@@ -70,6 +71,37 @@ const getMessageList = createAsyncThunk(
   }
 );
 
+interface ISendMessagePayload {
+  chatID: String;
+  text: String;
+}
+const sendMessage = createAsyncThunk(
+  "chat/message/send",
+  async (payload: ISendMessagePayload) => {
+    try {
+      const res = await axios.post(
+        getSendMessageAPI(),
+        {
+          chatID: payload.chatID,
+          text: payload.text,
+        },
+        {
+          headers: {
+            authorization: `Bearer ${getAccessToken()}`,
+          },
+        }
+      );
+      return res.data;
+    } catch (e: any) {
+      if (e?.response?.data?.msg) {
+        toast.error(e.response.data.msg);
+      } else {
+        toast.error("Something went wrong");
+      }
+      throw e;
+    }
+  }
+);
 export const chatSlice = createSlice({
   name: "chat",
   initialState,
@@ -104,6 +136,15 @@ export const chatSlice = createSlice({
       })
       .addCase(getMessageList.rejected, (state, action) => {
         state.status = STATUS.FAILURE;
+      })
+      .addCase(sendMessage.pending, (state, action) => {
+        state.status = STATUS.LOADING;
+      })
+      .addCase(sendMessage.fulfilled, (state, action) => {
+        state.status = STATUS.SUCCESS;
+      })
+      .addCase(sendMessage.rejected, (state, action) => {
+        state.status = STATUS.FAILURE;
       });
   },
 });
@@ -112,6 +153,7 @@ export const chatActions = {
   ...chatSlice.actions,
   getChatList,
   getMessageList,
+  sendMessage,
 };
 
 export default chatSlice.reducer;

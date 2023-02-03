@@ -18,6 +18,6 @@ export const getMessagesListAPI = (chatID: String) => {
   return `${baseUrl}/message/list?chatID=${chatID}`;
 };
 
-export const sendMessageAPI = () => {
+export const getSendMessageAPI = () => {
   return `${baseUrl}/message/send`;
 };
