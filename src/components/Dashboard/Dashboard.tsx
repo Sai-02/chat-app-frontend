@@ -6,11 +6,20 @@ import jwtDecode from "jwt-decode";
 import { useAppDispatch } from "../../shared/redux/hooks";
 import { getAccessToken } from "../../shared/utils/helpers";
 import { authActions } from "../../shared/redux/slices/authSlice";
+import io from "socket.io-client";
+import { SOCKET_EVENTS } from "../../shared/utils/constant";
 
+const socket = io("http://localhost:5000/");
 const Dashboard = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     storeUserDetailsFromAuthToken();
+    socket.on(SOCKET_EVENTS.CONNECT, () => {
+      console.log("connected");
+    });
+    return () => {
+      socket.off(SOCKET_EVENTS.CONNECT);
+    };
   }, []);
 
   const storeUserDetailsFromAuthToken = async () => {

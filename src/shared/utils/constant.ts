@@ -1,7 +1,7 @@
 export enum URL_PATHS {
   SIGNUP = "/signup",
   DASHBOARD = "/dashboard",
-  LOGIN="/login"
+  LOGIN = "/login",
 }
 
 export enum CONSTANT_VALUE {
@@ -13,4 +13,8 @@ export enum STATUS {
   LOADING = "LOADING",
   FAILURE = "FAILURE",
   SUCCESS = "SUCCESS",
+}
+
+export enum SOCKET_EVENTS {
+  CONNECT = "connect",
 }
