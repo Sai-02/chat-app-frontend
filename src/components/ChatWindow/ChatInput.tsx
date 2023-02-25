@@ -25,9 +25,7 @@ const ChatInput = () => {
       text: message,
       authToken: getAccessToken(),
     });
-    // if (res.payload) {
-    //   setMessage("");
-    // }
+    setMessage("");
   };
   const isChatSelected = () => activeChatID !== "";
   return (
