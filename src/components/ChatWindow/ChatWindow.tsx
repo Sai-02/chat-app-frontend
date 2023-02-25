@@ -30,7 +30,7 @@ const ChatWindow = () => {
   const loadMessageOfActiveChat = async () => {
     if (activeChatID !== "") {
       if (Object.keys(chatMap).includes(activeChatID)) {
-        const messageArray: any = chatMap.get(activeChatID);
+        const messageArray: any = chatMap[activeChatID];
         setMessages(messageArray);
         dispatch(chatActions.updateActiveChatMessages(messageArray));
         return;
