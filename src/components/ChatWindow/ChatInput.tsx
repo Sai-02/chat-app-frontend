@@ -4,6 +4,9 @@ import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useAppDispatch, useAppSelector } from "../../shared/redux/hooks";
 import { chatActions } from "../../shared/redux/slices/chatSlice";
+import { SOCKET_EVENTS } from "../../shared/utils/constant";
+import { getAccessToken } from "../../shared/utils/helpers";
+import { socket } from "../Dashboard/Dashboard";
 
 const ChatInput = () => {
   const dispatch = useAppDispatch();
@@ -11,15 +14,20 @@ const ChatInput = () => {
   const [message, setMessage] = useState("");
   const sendMessage = async () => {
     if (message.trim() === "") return;
-    const res = await dispatch(
-      chatActions.sendMessage({
-        chatID: activeChatID,
-        text: message,
-      })
-    );
-    if (res.payload) {
-      setMessage("");
-    }
+    // const res = await dispatch(
+    //   chatActions.sendMessage({
+    //     chatID: activeChatID,
+    //     text: message,
+    //   })
+    // );
+    socket.emit(SOCKET_EVENTS.SEND_MESSAGE, {
+      chatID: activeChatID,
+      text: message,
+      authToken: getAccessToken(),
+    });
+    // if (res.payload) {
+    //   setMessage("");
+    // }
   };
   const isChatSelected = () => activeChatID !== "";
   return (

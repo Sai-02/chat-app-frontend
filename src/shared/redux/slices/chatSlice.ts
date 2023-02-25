@@ -17,7 +17,8 @@ interface IChatState {
   chatListLength: Number;
   status: string;
   activeChatID: string;
-  chatMap: Map<any, any>;
+  chatMap: any;
+  activeChatMessages: Array<any>;
 }
 
 // Define the initial state using that type
@@ -26,7 +27,8 @@ const initialState: IChatState = {
   chatListLength: 0,
   status: STATUS.IDLE,
   activeChatID: "",
-  chatMap: new Map(),
+  chatMap: {},
+  activeChatMessages: [],
 };
 
 const getChatList = createAsyncThunk("chat/list", async () => {
@@ -109,6 +111,12 @@ export const chatSlice = createSlice({
     updateActiveChatID: (state, action: PayloadAction<string>) => {
       state.activeChatID = action.payload;
     },
+    updateChatMap: (state, action: any) => {
+      state.chatMap = action.payload;
+    },
+    updateActiveChatMessages: (state, action: PayloadAction<Array<any>>) => {
+      state.activeChatMessages = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -129,9 +137,11 @@ export const chatSlice = createSlice({
       .addCase(getMessageList.fulfilled, (state, action) => {
         state.status = STATUS.SUCCESS;
         if (action.payload.messages) {
-          const map = new Map(state.chatMap);
-          map.set(state.activeChatID, action.payload.messages);
-          state.chatMap = map;
+          const map = state.chatMap;
+          const obj = { ...map };
+          const chatID: any = state.activeChatID;
+          obj[chatID] = action.payload.messages;
+          state.chatMap = obj;
         }
       })
       .addCase(getMessageList.rejected, (state, action) => {

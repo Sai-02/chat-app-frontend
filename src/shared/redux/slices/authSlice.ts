@@ -11,7 +11,7 @@ interface IAuthState {
   value: number;
   status: string;
   authToken: string;
-  user: object;
+  user: any;
 }
 
 // Define the initial state using that type
