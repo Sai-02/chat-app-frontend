@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../shared/redux/hooks";
 import { chatActions } from "../../shared/redux/slices/chatSlice";
 import ChatInput from "./ChatInput";
@@ -16,9 +16,13 @@ const ChatWindow = () => {
     (state) => state.chat.activeChatMessages
   );
   const dispatch = useAppDispatch();
+  const chatWindowRef: any = useRef();
   useEffect(() => {
     setMessages(activeChatMessages);
   }, [activeChatMessages]);
+  useEffect(() => {
+    scrollChatWindowToBottom();
+  }, [messages]);
   useEffect(() => {
     loadMessageOfActiveChat();
   }, [activeChatID]);
@@ -53,6 +57,11 @@ const ChatWindow = () => {
   };
   const isNoChatSelected = () => activeChatID === "";
   const isMessagesEmpty = () => messages.length === 0;
+  const scrollChatWindowToBottom = () => {
+    if (chatWindowRef.current) {
+      chatWindowRef.current.scrollTo(0, chatWindowRef.current.scrollHeight);
+    }
+  };
   return (
     <>
       <div
@@ -60,6 +69,7 @@ const ChatWindow = () => {
         style={{
           height: "calc(100vh - 132px)",
         }}
+        ref={chatWindowRef}
       >
         <>
           {isNoChatSelected() ? (
