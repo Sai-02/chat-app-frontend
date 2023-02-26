@@ -44,7 +44,8 @@ const Dashboard = () => {
     const userDetails: object = await jwtDecode(getAccessToken());
     dispatch(authActions.setUser(userDetails));
   };
-  const handleMessageRecievedFromServer = (arg: any) => {
+  const handleMessageRecievedFromServer =async (arg: any) => {
+    await dispatch(chatActions.getChatList());
     const map = { ...chatMapRef.current };
     const message: any = arg.message;
     if (user?.chatList?.includes(message.chatID)) {
