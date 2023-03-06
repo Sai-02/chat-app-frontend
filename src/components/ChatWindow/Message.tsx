@@ -12,13 +12,15 @@ const Message = ({ messageInfo }: IMessageComponentProps) => {
     <div className={`text-black grid `}>
       <div
         className={`${
-          isMessageSentByUser() ? "justify-self-end hidden" : "justify-self-start"
+          isMessageSentByUser()
+            ? "justify-self-end hidden"
+            : "justify-self-start"
         }`}
       >
         {messageInfo?.sender?.name}
       </div>
       <div
-        className={`rounded-full  bg-[#6CB4EE] py-2 px-4 max-w-[60%] shadow ${
+        className={`rounded-full  bg-[#6CB4EE] py-2 px-4 max-w-[60%] shadow overflow-wrap-breakword ${
           isMessageSentByUser() ? "justify-self-end" : "justify-self-start"
         }`}
       >
