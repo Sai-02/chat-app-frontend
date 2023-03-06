@@ -117,6 +117,12 @@ export const chatSlice = createSlice({
     updateActiveChatMessages: (state, action: PayloadAction<Array<any>>) => {
       state.activeChatMessages = action.payload;
     },
+    updateChatList: (state, action: PayloadAction<any>) => {
+      state.chatList = action.payload;
+    },
+    updateChatListLength: (state, action: PayloadAction<any>) => {
+      state.chatListLength = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder

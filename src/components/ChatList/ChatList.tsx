@@ -13,6 +13,7 @@ const ChatList = () => {
   }, []);
   const loadChatsFromScratch = async () => {
     await dispatch(chatActions.getChatList());
+    console.log("chatList is ", chatList);
     setIsLoading(false);
   };
   return (
@@ -37,6 +38,7 @@ const ChatList = () => {
                 name={val.name}
                 latestMessage={val.latestMessage || ""}
                 id={val._id}
+                unreadMessageCount={val.unreadMessageCount}
               />
             );
           })}

@@ -19,4 +19,6 @@ export enum SOCKET_EVENTS {
   CONNECT = "connect",
   SEND_MESSAGE = "send_message",
   RECIEVE_MESSAGE = "recieve_message",
+  MARK_AS_READ = "/mark_as_read",
+  GET_CHAT_LIST = "/get_chat_list",
 }

@@ -33,6 +33,9 @@ const Dashboard = () => {
       socket.on(SOCKET_EVENTS.RECIEVE_MESSAGE, (arg) => {
         handleMessageRecievedFromServer(arg);
       });
+      socket.on(SOCKET_EVENTS.GET_CHAT_LIST, (arg) => {
+        handleChatListRecievedFromServer(arg);
+      });
       return () => {
         socket.off(SOCKET_EVENTS.CONNECT);
         socket.off(SOCKET_EVENTS.RECIEVE_MESSAGE);
@@ -44,21 +47,39 @@ const Dashboard = () => {
     const userDetails: object = await jwtDecode(getAccessToken());
     dispatch(authActions.setUser(userDetails));
   };
-  const handleMessageRecievedFromServer =async (arg: any) => {
+  const handleMessageRecievedFromServer = async (arg: any) => {
     await dispatch(chatActions.getChatList());
     const map = { ...chatMapRef.current };
     const message: any = arg.message;
-    if (user?.chatList?.includes(message.chatID)) {
+    console.log(user.chatList, message, "message recieved");
+    if (isUserInTheChat(message.chatID)) {
       const chatID = message.chatID;
       const arr: any = map[chatID];
       const newArr = [...arr, { ...arg }];
       map[chatID] = newArr;
       dispatch(chatActions.updateChatMap(map));
       if (activeChatID === message.chatID) {
+        socket.emit(SOCKET_EVENTS.MARK_AS_READ, {
+          authToken: getAccessToken(),
+          chatID: activeChatID,
+        });
         dispatch(chatActions.updateActiveChatMessages(map[chatID]));
       }
     } else {
     }
+  };
+  const isUserInTheChat = (chatID: any) => {
+    for (let i = 0; i < user.chatList.length; i++) {
+      if (user.chatList[i].id === chatID) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const handleChatListRecievedFromServer = (arg: any) => {
+    dispatch(chatActions.updateChatList(arg?.chats));
+    dispatch(chatActions.updateChatListLength(arg?.size));
   };
   return (
     <div className="h-screen w-screen flex flex-col ">
