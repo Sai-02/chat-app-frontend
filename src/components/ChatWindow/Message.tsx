@@ -20,7 +20,7 @@ const Message = ({ messageInfo }: IMessageComponentProps) => {
         {messageInfo?.sender?.name}
       </div>
       <p
-        className={`rounded-[1rem]  bg-[#6CB4EE] py-2 px-4  max-w-[60%] shadow  overflow-wrap-breakword overflow-hidden  ${
+        className={`rounded-[1rem]  bg-[#6CB4EE] py-2 px-4  max-w-[60%] shadow  overflow-wrap-breakword overflow-hidden text-left  ${
           isMessageSentByUser() ? "justify-self-end" : "justify-self-start"
         }`}
       >
