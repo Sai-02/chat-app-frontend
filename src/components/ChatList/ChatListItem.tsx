@@ -35,9 +35,9 @@ const ChatListItem = (props: IChatListItemProps) => {
       <div className="">
         <div className="w-12 h-12 rounded-full bg-[red]"></div>
       </div>
-      <div className="flex-grow">
-        <h2 className="text-left">{props.name}</h2>
-        <p className="text-left">{props.latestMessage}</p>
+      <div className="flex-grow max-w-full overflow-hidden">
+        <h2 className="text-left text-ellipsis">{props.name}</h2>
+        <p className="text-left text-ellipsis overflow-hidden  ">{props.latestMessage}</p>
       </div>
       {props.unreadMessageCount > 0 ? (
         <div className="flex items-center">
