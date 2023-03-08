@@ -4,7 +4,7 @@ import { chatActions } from "../../shared/redux/slices/chatSlice";
 import { SOCKET_EVENTS } from "../../shared/utils/constant";
 import { getAccessToken } from "../../shared/utils/helpers";
 import { socket } from "../Dashboard/Dashboard";
-
+import Tooltip from "@mui/material/Tooltip";
 interface IChatListItemProps {
   key: string;
   name: string;
@@ -37,7 +37,11 @@ const ChatListItem = (props: IChatListItemProps) => {
       </div>
       <div className="flex-grow max-w-full overflow-hidden">
         <h2 className="text-left text-ellipsis">{props.name}</h2>
-        <p className="text-left text-ellipsis overflow-hidden  ">{props.latestMessage}</p>
+        <Tooltip title={props.latestMessage} placement="bottom-start">
+          <p className="text-left text-ellipsis overflow-hidden  ">
+            {props.latestMessage}
+          </p>
+        </Tooltip>
       </div>
       {props.unreadMessageCount > 0 ? (
         <div className="flex items-center">
