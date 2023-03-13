@@ -86,17 +86,17 @@ const Dashboard = () => {
       <Header />
       <div className="flex-grow grid grid-cols-10  ">
         <div
-          className="col-span-3 shadow overflow-hidden"
+          className="col-span-3  overflow-hidden"
           style={{
-            height: "calc(100vh - 60px)",
+            height: "calc(100vh - 64px)",
           }}
         >
           <ChatList />
         </div>
         <div
-          className="col-span-7 overflow-hidden border shadow"
+          className="col-span-7 overflow-hidden  "
           style={{
-            height: "calc(100vh - 60px)",
+            height: "calc(100vh - 64px)",
           }}
         >
           <ChatWindow />

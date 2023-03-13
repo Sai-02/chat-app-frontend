@@ -1,22 +1,15 @@
-import { faUserCircle, faBell } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import ChatListHeader from "./ChatListHeader";
+import ChatWindowHeader from "./ChatWindowHeader";
 
 const Header = () => {
   return (
-    <header className="text-white p-4 px-12 bg-[#1976D2] flex ">
-      <div className="">
-        <h2 className="font-bold text-xl">Chat app</h2>
-      </div>
-      <div className="flex-grow flex flex-row-reverse gap-8">
-        <div className="text-xl cursor-pointer">
-          <FontAwesomeIcon icon={faUserCircle} />
+    <header className="">
+      <div className="flex-grow grid grid-cols-10  ">
+        <div className="col-span-3 overflow-hidden py-3 border-r bg-gray-100">
+          <ChatListHeader />
         </div>
-        <div className="text-xl cursor-pointer">
-          <FontAwesomeIcon icon={faBell} />
-        </div>
-        <div className="text-lg hover:text-[#F9F6EE] cursor-pointer">
-          Create Group
+        <div className="col-span-7 overflow-hidden ">
+          <ChatWindowHeader />
         </div>
       </div>
     </header>
