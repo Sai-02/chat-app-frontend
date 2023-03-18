@@ -7,7 +7,7 @@ export const getLoginAPI = () => {
   return `${baseUrl}/auth/login`;
 };
 
-export const createChatAPI = () => {
+export const getCreateChatAPI = () => {
   return `${baseUrl}/chat/create`;
 };
 export const getChatListAPI = () => {
@@ -20,4 +20,8 @@ export const getMessagesListAPI = (chatID: String) => {
 
 export const getSendMessageAPI = () => {
   return `${baseUrl}/message/send`;
+};
+
+export const getSearchUsersAPI = (username: string) => {
+  return `${baseUrl}/user/search?username=${username}`;
 };

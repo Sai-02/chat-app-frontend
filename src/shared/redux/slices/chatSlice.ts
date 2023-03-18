@@ -2,9 +2,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import {
-  createChatAPI,
   getChatListAPI,
+  getCreateChatAPI,
   getMessagesListAPI,
+  getSearchUsersAPI,
   getSendMessageAPI,
 } from "../../utils/api";
 import { STATUS } from "../../utils/constant";
@@ -19,6 +20,7 @@ interface IChatState {
   activeChatID: string;
   chatMap: any;
   activeChatMessages: Array<any>;
+  searchedUsers: Array<any>;
 }
 
 // Define the initial state using that type
@@ -29,6 +31,7 @@ const initialState: IChatState = {
   activeChatID: "",
   chatMap: {},
   activeChatMessages: [],
+  searchedUsers: [],
 };
 
 const getChatList = createAsyncThunk("chat/list", async () => {
@@ -104,6 +107,66 @@ const sendMessage = createAsyncThunk(
     }
   }
 );
+
+interface ISearchUsersPayload {
+  username: string;
+}
+
+const searchUsers = createAsyncThunk(
+  "users/search",
+  async (payload: ISearchUsersPayload) => {
+    try {
+      const res = await axios.get(getSearchUsersAPI(payload.username), {
+        headers: {
+          authorization: `Bearer ${getAccessToken()}`,
+        },
+      });
+      return res.data;
+    } catch (e: any) {
+      if (e?.response?.data?.msg) {
+        toast.error(e.response.data.msg);
+      } else {
+        toast.error("Something went wrong");
+      }
+      throw e;
+    }
+  }
+);
+
+interface ICreateChatPayload {
+  name: string;
+  members: Array<any>;
+  admin: string;
+}
+const createChat = createAsyncThunk(
+  "chat/create",
+  async ({ name, members, admin }: ICreateChatPayload) => {
+    try {
+      const res = await axios.post(
+        getCreateChatAPI(),
+        {
+          name,
+          members,
+          isGroup: true,
+          admins: [admin],
+        },
+        {
+          headers: {
+            authorization: `Bearer ${getAccessToken()}`,
+          },
+        }
+      );
+      return res.data;
+    } catch (e: any) {
+      if (e?.response?.data?.msg) {
+        toast.error(e.response.data.msg);
+      } else {
+        toast.error("Something went wrong");
+      }
+    }
+  }
+);
+
 export const chatSlice = createSlice({
   name: "chat",
   initialState,
@@ -122,6 +185,9 @@ export const chatSlice = createSlice({
     },
     updateChatListLength: (state, action: PayloadAction<any>) => {
       state.chatListLength = action.payload;
+    },
+    updateSearchedUsers: (state, action: PayloadAction<any>) => {
+      state.searchedUsers = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -161,6 +227,25 @@ export const chatSlice = createSlice({
       })
       .addCase(sendMessage.rejected, (state, action) => {
         state.status = STATUS.FAILURE;
+      })
+      .addCase(searchUsers.pending, (state, action) => {
+        state.status = STATUS.LOADING;
+      })
+      .addCase(searchUsers.fulfilled, (state, action) => {
+        state.status = STATUS.SUCCESS;
+        state.searchedUsers = action.payload.users;
+      })
+      .addCase(searchUsers.rejected, (state, action) => {
+        state.status = STATUS.FAILURE;
+      })
+      .addCase(createChat.pending, (state, action) => {
+        state.status = STATUS.LOADING;
+      })
+      .addCase(createChat.fulfilled, (state, action) => {
+        state.status = STATUS.SUCCESS;
+      })
+      .addCase(createChat.rejected, (state, action) => {
+        state.status = STATUS.FAILURE;
       });
   },
 });
@@ -170,6 +255,8 @@ export const chatActions = {
   getChatList,
   getMessageList,
   sendMessage,
+  searchUsers,
+  createChat,
 };
 
 export default chatSlice.reducer;
