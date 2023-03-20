@@ -14,14 +14,20 @@ export const socket = io("http://localhost:5000/");
 const Dashboard = () => {
   const chatMap = useAppSelector((state) => state.chat.chatMap);
   const activeChatID = useAppSelector((state) => state.chat.activeChatID);
+  const chatList = useAppSelector((state) => state.chat.chatList);
   const user = useAppSelector((state) => state.auth.user);
   const chatMapRef = useRef(chatMap);
+  const userChatListRef = useRef(chatList);
+
   const dispatch = useAppDispatch();
   useEffect(() => {
     (async () => {
       await storeUserDetailsFromAuthToken();
     })();
   }, []);
+  useEffect(() => {
+    userChatListRef.current = chatList;
+  }, [chatList]);
   useEffect(() => {
     chatMapRef.current = chatMap;
   }, [chatMap]);
@@ -69,8 +75,9 @@ const Dashboard = () => {
     }
   };
   const isUserInTheChat = (chatID: any) => {
-    for (let i = 0; i < user.chatList.length; i++) {
-      if (user.chatList[i].id === chatID) {
+    const userChatList = [...userChatListRef.current];
+    for (let i = 0; i < userChatList.length; i++) {
+      if (userChatList[i]._id === chatID) {
         return true;
       }
     }
