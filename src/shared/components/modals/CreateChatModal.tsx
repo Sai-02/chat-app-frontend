@@ -54,6 +54,7 @@ const CreateChatModal = (props: ICreateChatModalProp) => {
         name: groupName,
         members: [...selectedUsers, user.username],
         admin: user.username,
+        isGroup:true
       })
     );
     await dispatch(chatActions.getChatList());

@@ -2,16 +2,23 @@ import {
   faEllipsisVertical,
   faMessage,
   faUser,
+  faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import CreateChatModal from "../../shared/components/modals/CreateChatModal";
+import SearchUsersModal from "../../shared/components/modals/SearchUsersModal";
 
 const ChatListHeader = () => {
   const [shouldOpenCreateChatModal, setShouldOpenCreateChatModal] =
     useState(false);
+  const [shouldOpenSearchUsersModal, setShouldOpenSearchUsersModal] =
+    useState(false);
   const openCreateChatModal = () => {
     setShouldOpenCreateChatModal(true);
+  };
+  const openSearchUsersModal = () => {
+    setShouldOpenSearchUsersModal(true);
   };
   return (
     <>
@@ -22,6 +29,11 @@ const ChatListHeader = () => {
           </div>
         </div>
         <div className="flex gap-6">
+          <FontAwesomeIcon
+            icon={faUserPlus}
+            className="cursor-pointer text-gray-500"
+            onClick={openSearchUsersModal}
+          />
           <FontAwesomeIcon
             icon={faMessage}
             className="cursor-pointer text-gray-500"
@@ -37,6 +49,14 @@ const ChatListHeader = () => {
         <CreateChatModal
           open={shouldOpenCreateChatModal}
           setOpen={setShouldOpenCreateChatModal}
+        />
+      ) : (
+        ""
+      )}
+      {shouldOpenSearchUsersModal ? (
+        <SearchUsersModal
+          open={shouldOpenSearchUsersModal}
+          setOpen={setShouldOpenSearchUsersModal}
         />
       ) : (
         ""

@@ -21,6 +21,7 @@ interface IChatState {
   chatMap: any;
   activeChatMessages: Array<any>;
   searchedUsers: Array<any>;
+  personalChatMap: Array<any>;
 }
 
 // Define the initial state using that type
@@ -32,6 +33,7 @@ const initialState: IChatState = {
   chatMap: {},
   activeChatMessages: [],
   searchedUsers: [],
+  personalChatMap: [],
 };
 
 const getChatList = createAsyncThunk("chat/list", async () => {
@@ -137,17 +139,18 @@ interface ICreateChatPayload {
   name: string;
   members: Array<any>;
   admin: string;
+  isGroup: boolean;
 }
 const createChat = createAsyncThunk(
   "chat/create",
-  async ({ name, members, admin }: ICreateChatPayload) => {
+  async ({ name, members, admin, isGroup }: ICreateChatPayload) => {
     try {
       const res = await axios.post(
         getCreateChatAPI(),
         {
           name,
           members,
-          isGroup: true,
+          isGroup,
           admins: [admin],
         },
         {
@@ -196,8 +199,9 @@ export const chatSlice = createSlice({
         state.status = STATUS.LOADING;
       })
       .addCase(getChatList.fulfilled, (state, action) => {
-        state.chatList = action?.payload?.chats;
-        state.chatListLength = action?.payload?.size;
+        state.chatList = action?.payload?.chatList;
+        state.personalChatMap = action?.payload?.personalChatMap;
+        state.chatListLength = action?.payload?.chatList.length;
         state.status = STATUS.SUCCESS;
       })
       .addCase(getChatList.rejected, (state, action) => {

@@ -39,6 +39,7 @@ const ChatList = () => {
                 latestMessage={val.latestMessage || ""}
                 id={val._id}
                 unreadMessageCount={val.unreadMessageCount}
+                isGroup={val.isGroup}
               />
             );
           })}

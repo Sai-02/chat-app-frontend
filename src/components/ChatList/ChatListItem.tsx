@@ -11,8 +11,10 @@ interface IChatListItemProps {
   latestMessage: string;
   id: string;
   unreadMessageCount: number;
+  isGroup: boolean;
 }
 const ChatListItem = (props: IChatListItemProps) => {
+  const user = useAppSelector((state) => state.auth.user);
   const activeChatID = useAppSelector((state) => state.chat.activeChatID);
   const dispatch = useAppDispatch();
   const setActiveChat = () => {
@@ -25,6 +27,12 @@ const ChatListItem = (props: IChatListItemProps) => {
       chatID: props.id,
     });
   };
+  const getParsedName = () => {
+    const name = props.name;
+    const arr = name.split("+");
+    if (arr[0] === user.username) return arr[1];
+    return arr[0];
+  };
   return (
     <div
       className={`flex gap-4 p-4 cursor-pointer border hover:bg-[#f5f6f6] ${
@@ -36,7 +44,9 @@ const ChatListItem = (props: IChatListItemProps) => {
         <div className="w-12 h-12 rounded-full bg-[red]"></div>
       </div>
       <div className="flex-grow max-w-full overflow-hidden">
-        <h2 className="text-left text-ellipsis">{props.name}</h2>
+        <h2 className="text-left text-ellipsis">
+          {props.isGroup ? <>{props.name}</> : <>{getParsedName()}</>}
+        </h2>
         <Tooltip title={props.latestMessage} placement="bottom-start">
           <p className="text-left text-ellipsis overflow-hidden  ">
             {props.latestMessage}
