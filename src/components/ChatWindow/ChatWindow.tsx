@@ -41,14 +41,16 @@ const ChatWindow = () => {
       }
       setLoading(true);
       try {
-        console.log("Why??");
-        const data = await dispatch(
+        const data: any = await dispatch(
           chatActions.getMessageList({ chatID: activeChatID })
         );
         let messageArray = [];
-        if (data.payload?.messages) messageArray = data.payload?.messages;
-        setMessages(messageArray);
-        dispatch(chatActions.updateActiveChatMessages(messageArray));
+        if (data.payload?.data?.messages)
+          messageArray = data.payload?.data?.messages;
+        if (activeChatID === data.payload.chatID) {
+          setMessages(messageArray);
+          dispatch(chatActions.updateActiveChatMessages(messageArray));
+        }
       } catch (e) {
         console.log(e);
       }

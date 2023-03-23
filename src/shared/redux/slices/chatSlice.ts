@@ -66,7 +66,7 @@ const getMessageList = createAsyncThunk(
           authorization: `Bearer ${getAccessToken()}`,
         },
       });
-      return res.data;
+      return { data: res.data, chatID: payload.chatID };
     } catch (e: any) {
       if (e?.response?.data?.msg) {
         toast.error(e.response.data.msg);
@@ -212,11 +212,11 @@ export const chatSlice = createSlice({
       })
       .addCase(getMessageList.fulfilled, (state, action) => {
         state.status = STATUS.SUCCESS;
-        if (action.payload.messages) {
+        if (action.payload.data.messages) {
           const map = state.chatMap;
           const obj = { ...map };
-          const chatID: any = state.activeChatID;
-          obj[chatID] = action.payload.messages;
+          const chatID: any = action.payload.chatID;
+          obj[chatID] = action.payload.data.messages;
           state.chatMap = obj;
         }
       })
