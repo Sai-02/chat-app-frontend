@@ -15,15 +15,26 @@ const Dashboard = () => {
   const chatMap = useAppSelector((state) => state.chat.chatMap);
   const activeChatID = useAppSelector((state) => state.chat.activeChatID);
   const chatList = useAppSelector((state) => state.chat.chatList);
+  const isChatVisible = useAppSelector((state) => state.chat.isChatVisible);
   const user = useAppSelector((state) => state.auth.user);
   const chatMapRef = useRef(chatMap);
   const userChatListRef = useRef(chatList);
 
   const dispatch = useAppDispatch();
+  const [screenSize, setScreenSize] = useState(window.innerWidth);
+
   useEffect(() => {
     (async () => {
       await storeUserDetailsFromAuthToken();
     })();
+    window.addEventListener("resize", () => {
+      setScreenSize(window.innerWidth);
+    });
+    return () => {
+      window.removeEventListener("resize", () => {
+        setScreenSize(window.innerWidth);
+      });
+    };
   }, []);
   useEffect(() => {
     userChatListRef.current = chatList;
@@ -90,24 +101,53 @@ const Dashboard = () => {
   };
   return (
     <div className="h-screen w-screen flex flex-col ">
-      <Header />
-      <div className="flex-grow grid grid-cols-10  ">
-        <div
-          className="col-span-3  overflow-hidden"
-          style={{
-            height: "calc(100vh - 64px)",
-          }}
-        >
-          <ChatList />
-        </div>
-        <div
-          className="col-span-7 overflow-hidden  "
-          style={{
-            height: "calc(100vh - 64px)",
-          }}
-        >
-          <ChatWindow />
-        </div>
+      <Header
+        screenSize={screenSize}
+        setScreenSize={setScreenSize}
+      />
+      <div className="flex-grow sm:grid sm:grid-cols-10  ">
+        {screenSize > 640 ? (
+          <>
+            <div
+              className="col-span-3  overflow-hidden"
+              style={{
+                height: "calc(100vh - 64px)",
+              }}
+            >
+              <ChatList />
+            </div>
+            <div
+              className="col-span-7 overflow-hidden  "
+              style={{
+                height: "calc(100vh - 64px)",
+              }}
+            >
+              <ChatWindow />
+            </div>
+          </>
+        ) : (
+          <>
+            {isChatVisible ? (
+              <div
+                className="overflow-hidden  "
+                style={{
+                  height: "calc(100vh - 64px)",
+                }}
+              >
+                <ChatWindow />
+              </div>
+            ) : (
+              <div
+                className="overflow-hidden"
+                style={{
+                  height: "calc(100vh - 64px)",
+                }}
+              >
+                <ChatList />
+              </div>
+            )}
+          </>
+        )}
       </div>
     </div>
   );

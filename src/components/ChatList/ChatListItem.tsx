@@ -21,6 +21,9 @@ const ChatListItem = (props: IChatListItemProps) => {
     dispatch(chatActions.updateActiveChatID(props.id));
   };
   const handleChatListItemClick = () => {
+    if (window.innerWidth <= 640) {
+      dispatch(chatActions.updateIsChatVisible(true));
+    }
     setActiveChat();
     socket.emit(SOCKET_EVENTS.MARK_AS_READ, {
       authToken: getAccessToken(),

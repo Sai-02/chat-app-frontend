@@ -1,10 +1,12 @@
 import {
+  faArrowLeft,
   faEllipsisVertical,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
-import { useAppSelector } from "../../shared/redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../shared/redux/hooks";
+import { chatActions } from "../../shared/redux/slices/chatSlice";
 
 const ChatWindowHeader = () => {
   const user = useAppSelector((state) => state.auth.user);
@@ -16,6 +18,7 @@ const ChatWindowHeader = () => {
   };
   const activeChatID = useAppSelector((state) => state.chat.activeChatID);
   const chatList = useAppSelector((state) => state.chat.chatList);
+  const dispatch = useAppDispatch();
   useEffect(() => {
     if (!isNoChatSelected()) {
       updateGroupNameAndMembers();
@@ -35,6 +38,10 @@ const ChatWindowHeader = () => {
     if (arr[0] === user.username) return arr[1];
     return arr[0];
   };
+  const handleBackBtn = () => {
+    dispatch(chatActions.updateActiveChatID(""));
+    dispatch(chatActions.updateIsChatVisible(false));
+  };
   return (
     <div className="">
       {isNoChatSelected() ? (
@@ -42,6 +49,13 @@ const ChatWindowHeader = () => {
       ) : (
         <div className="bg-gray-100 px-4 pr-6 flex justify-between items-center py-3 bg-gray-100 ">
           <div className="flex gap-4 items-center">
+            <div className="sm:hidden">
+              <FontAwesomeIcon
+                icon={faArrowLeft}
+                className="text-gray-400 cursor-pointer"
+                onClick={handleBackBtn}
+              />
+            </div>
             <div className="w-10 h-10 rounded-full bg-sky-100"></div>
             <div className="text-left">
               <h3 className="text-sm font-semibold">

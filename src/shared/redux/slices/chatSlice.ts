@@ -22,6 +22,7 @@ interface IChatState {
   activeChatMessages: Array<any>;
   searchedUsers: Array<any>;
   personalChatMap: Array<any>;
+  isChatVisible: boolean;
 }
 
 // Define the initial state using that type
@@ -34,6 +35,7 @@ const initialState: IChatState = {
   activeChatMessages: [],
   searchedUsers: [],
   personalChatMap: [],
+  isChatVisible: false,
 };
 
 const getChatList = createAsyncThunk("chat/list", async () => {
@@ -191,6 +193,9 @@ export const chatSlice = createSlice({
     },
     updateSearchedUsers: (state, action: PayloadAction<any>) => {
       state.searchedUsers = action.payload;
+    },
+    updateIsChatVisible: (state, action: PayloadAction<any>) => {
+      state.isChatVisible = action.payload;
     },
   },
   extraReducers: (builder) => {
