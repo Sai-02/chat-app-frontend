@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useAppDispatch } from "../../shared/redux/hooks";
@@ -9,6 +9,7 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUserName] = useState("");
+  const [image, setImage] = useState("");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const validateUserData = () => {
@@ -28,16 +29,24 @@ const Signup = () => {
       toast.error("Username can't be empty");
       return true;
     }
+    if (!image) {
+      toast.error("Please upload image as well");
+      return true;
+    }
   };
   const registerUser = async () => {
     if (validateUserData()) return;
+    const formData = new FormData();
+    formData.append("image", image);
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("username", username);
+    formData.append("password", password);
+    formData.append("phone_no", (Math.random() * 100000000).toString());
     try {
       await dispatch(
         authActions.registerUser({
-          email,
-          name,
-          password,
-          username,
+          formData,
         })
       );
       toast.success("Signed up!!");
@@ -119,6 +128,13 @@ const Signup = () => {
                 onChange={(e) => setUserName(e.target.value)}
               />
             </div>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e: any) => {
+                setImage(e.target.files[0]);
+              }}
+            />
           </div>
           <div className="mt-[30px]">
             <button

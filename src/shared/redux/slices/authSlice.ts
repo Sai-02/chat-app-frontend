@@ -23,22 +23,17 @@ const initialState: IAuthState = {
 };
 
 interface IRegisterUserPayload {
-  name: string;
-  username: string;
-  password: string;
-  email: string;
+  formData: any;
 }
 const registerUser = createAsyncThunk(
   "auth/register",
   async (payload: IRegisterUserPayload) => {
-    const { name, username, password, email } = payload;
+    const { formData } = payload;
     try {
-      const user = await axios.post(getSignUpAPI(), {
-        name,
-        username,
-        password,
-        phone_no: Math.random() * 100000000,
-        email,
+      const user = await axios.post(getSignUpAPI(), formData, {
+        headers: {
+          "content-type": "multipart/form-data", // do not forget this
+        },
       });
       return user.data;
     } catch (e: any) {
