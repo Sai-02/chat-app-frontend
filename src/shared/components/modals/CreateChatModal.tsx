@@ -1,4 +1,4 @@
-import { faClose, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faClose, faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dialog } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -54,7 +54,7 @@ const CreateChatModal = (props: ICreateChatModalProp) => {
         name: groupName,
         members: [...selectedUsers, user.username],
         admin: user.username,
-        isGroup:true
+        isGroup: true,
       })
     );
     await dispatch(chatActions.getChatList());
@@ -66,12 +66,11 @@ const CreateChatModal = (props: ICreateChatModalProp) => {
     <div className="">
       <Dialog
         open={props.open}
-        fullScreen
         sx={{
           background: "transparent",
         }}
       >
-        <div className="h-screen w-screen p-8 bg-[#F7F8FF] flex flex-col gap-4">
+        <div className="p-8  flex flex-col gap-6">
           <div className="flex justify-end">
             <FontAwesomeIcon
               icon={faClose}
@@ -80,21 +79,21 @@ const CreateChatModal = (props: ICreateChatModalProp) => {
             />
           </div>
           <div className="grid gap-3 mt-4">
-            <h1 className="text-xl">Name of the group</h1>
             <input
               type="text"
-              className="outline-none rounded-xl border-2 border-blue-primary p-2"
+              className="outline-none  border-b border-blue-primary"
               value={groupName}
+              placeholder="Name of group"
               onChange={(e) => setGroupName(e.target.value)}
             />
           </div>
           <div className="flex grow justify-center">
-            <div className="shadow rounded bg-white p-3 w-[50vw]">
+            <div className=" rounded bg-white  w-[50vw]">
               <div className="rounded flex justify-center border">
                 <input
                   type="text"
-                  className="outline-none p-2 px-3 rounded-l grow"
-                  placeholder="Username.."
+                  className="outline-none p-2 px-3 rounded-l grow placeholder:text-gray-400"
+                  placeholder="Search users by username"
                   value={searchUsername}
                   onChange={(e) => setSearchUsername(e.target.value)}
                 />
@@ -105,7 +104,7 @@ const CreateChatModal = (props: ICreateChatModalProp) => {
                   <FontAwesomeIcon icon={faSearch} />
                 </button>
               </div>
-              <div className="h-[8rem] overflow-auto">
+              <div className="h-[10rem] overflow-auto flex flex-col ">
                 {searchedUsers.map((val) => {
                   return (
                     <>
@@ -114,14 +113,24 @@ const CreateChatModal = (props: ICreateChatModalProp) => {
                         <></>
                       ) : (
                         <div
-                          className="flex flex-col text-xs border px-3 cursor-pointer "
+                          className="flex  gap-4 border  cursor-pointer py-1 px-3 items-center "
                           key={val.username}
-                          onClick={() => {
-                            addUser(val.username || "");
-                          }}
                         >
-                          <h3 className="">{val.name}</h3>
-                          <h4 className="">{val.username}</h4>
+                          <div className="w-10 h-10 rounded-full flex items-center  justify-center bg-gray-200 text-white">
+                            <FontAwesomeIcon icon={faUser} />
+                          </div>
+                          <div className="grow">
+                            <h1 className="">{val.name}</h1>
+                            <h3 className="">{val.username}</h3>
+                          </div>
+                          <button
+                            onClick={() => {
+                              addUser(val.username || "");
+                            }}
+                            className="bg-blue-500 text-white rounded px-3 py-1 text-white"
+                          >
+                            Select
+                          </button>
                         </div>
                       )}
                     </>
@@ -130,7 +139,7 @@ const CreateChatModal = (props: ICreateChatModalProp) => {
               </div>
               <div className="mt-4 p-2">
                 <h2 className="">Added Users</h2>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   {selectedUsers.map((username: any) => {
                     return (
                       <div
