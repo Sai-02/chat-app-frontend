@@ -2,6 +2,8 @@ import {
   faArrowLeft,
   faEllipsisVertical,
   faSearch,
+  faUser,
+  faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
@@ -12,6 +14,7 @@ const ChatWindowHeader = () => {
   const user = useAppSelector((state) => state.auth.user);
   const [groupName, setGroupName] = useState("");
   const [groupMembers, setGroupMembers] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const [activeChat, setActiveChat] = useState<any>({});
   const isNoChatSelected = () => {
     return activeChatID.trim() === "";
@@ -32,6 +35,7 @@ const ChatWindowHeader = () => {
     setActiveChat(activeChat);
     setGroupName(activeChat.name);
     setGroupMembers(activeChat.members.join(", "));
+    setImageUrl(activeChat.group_profile_pic);
   };
   const getParsedName = (name: any) => {
     const arr = name.split("+");
@@ -42,6 +46,7 @@ const ChatWindowHeader = () => {
     dispatch(chatActions.updateActiveChatID(""));
     dispatch(chatActions.updateIsChatVisible(false));
   };
+  const isImageURLValid = () => imageUrl.trim() !== "";
   return (
     <div className="">
       {isNoChatSelected() ? (
@@ -56,7 +61,19 @@ const ChatWindowHeader = () => {
                 onClick={handleBackBtn}
               />
             </div>
-            <div className="w-10 h-10 rounded-full bg-sky-100"></div>
+            <div className="w-10 h-10 rounded-full bg-gray-200 grid place-items-center text-white ">
+              {isImageURLValid() ? (
+                <img src={imageUrl} className="w-10 h-10 rounded-full" />
+              ) : (
+                <>
+                  {activeChat?.isGroup ? (
+                    <FontAwesomeIcon icon={faUsers} />
+                  ) : (
+                    <FontAwesomeIcon icon={faUser} />
+                  )}
+                </>
+              )}
+            </div>
             <div className="text-left">
               <h3 className="text-sm font-semibold">
                 {activeChat.isGroup ? (

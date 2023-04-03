@@ -142,25 +142,24 @@ interface ICreateChatPayload {
   members: Array<any>;
   admin: string;
   isGroup: boolean;
+  image: any;
 }
 const createChat = createAsyncThunk(
   "chat/create",
-  async ({ name, members, admin, isGroup }: ICreateChatPayload) => {
+  async ({ name, members, admin, isGroup, image }: ICreateChatPayload) => {
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("members", JSON.stringify(members));
+    formData.append("admins", JSON.stringify([admin]));
+    formData.append("isGroup", JSON.stringify(isGroup));
+    formData.append("image", image);
     try {
-      const res = await axios.post(
-        getCreateChatAPI(),
-        {
-          name,
-          members,
-          isGroup,
-          admins: [admin],
+      const res = await axios.post(getCreateChatAPI(), formData, {
+        headers: {
+          authorization: `Bearer ${getAccessToken()}`,
+          "content-type": "multipart/form-data",
         },
-        {
-          headers: {
-            authorization: `Bearer ${getAccessToken()}`,
-          },
-        }
-      );
+      });
       return res.data;
     } catch (e: any) {
       if (e?.response?.data?.msg) {

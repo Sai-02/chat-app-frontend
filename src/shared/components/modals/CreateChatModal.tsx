@@ -17,6 +17,7 @@ const CreateChatModal = (props: ICreateChatModalProp) => {
   const [searchUsername, setSearchUsername] = useState("");
   const [selectedUsers, setSelectedUsers] = useState<any>([]);
   const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState("");
   useEffect(() => {
     dispatch(chatActions.updateSearchedUsers([]));
   }, []);
@@ -55,6 +56,7 @@ const CreateChatModal = (props: ICreateChatModalProp) => {
         members: [...selectedUsers, user.username],
         admin: user.username,
         isGroup: true,
+        image,
       })
     );
     await dispatch(chatActions.getChatList());
@@ -85,6 +87,15 @@ const CreateChatModal = (props: ICreateChatModalProp) => {
               value={groupName}
               placeholder="Name of group"
               onChange={(e) => setGroupName(e.target.value)}
+            />
+          </div>
+          <div className="">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e: any) => {
+                setImage(e.target.files[0]);
+              }}
             />
           </div>
           <div className="flex grow justify-center">

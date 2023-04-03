@@ -39,6 +39,7 @@ const ChatList = () => {
                 id={val._id}
                 unreadMessageCount={val.unreadMessageCount}
                 isGroup={val.isGroup}
+                group_profile_pic={val.group_profile_pic}
               />
             );
           })}

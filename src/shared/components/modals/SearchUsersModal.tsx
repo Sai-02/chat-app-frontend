@@ -43,6 +43,7 @@ const SearchUsersModal = (props: ISearchUsersModalProp) => {
           members: [username, user.username],
           admin: "",
           isGroup: false,
+          image: "",
         })
       );
       const chat = payload?.chat;
