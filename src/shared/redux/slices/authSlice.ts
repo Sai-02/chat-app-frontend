@@ -88,6 +88,7 @@ export const authSlice = createSlice({
     setUser(state, action: PayloadAction<object>) {
       state.user = action.payload;
     },
+    resetState: () => initialState,
   },
   extraReducers: (builder) => {
     builder

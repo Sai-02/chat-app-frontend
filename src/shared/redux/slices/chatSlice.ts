@@ -199,6 +199,7 @@ export const chatSlice = createSlice({
     updatePersonalChatMap: (state, action: PayloadAction<any>) => {
       state.personalChatMap = action.payload;
     },
+    resetState: () => initialState,
   },
   extraReducers: (builder) => {
     builder
