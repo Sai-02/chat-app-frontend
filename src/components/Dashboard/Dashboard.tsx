@@ -96,15 +96,13 @@ const Dashboard = () => {
   };
 
   const handleChatListRecievedFromServer = (arg: any) => {
-    dispatch(chatActions.updateChatList(arg?.chats));
-    dispatch(chatActions.updateChatListLength(arg?.size));
+    dispatch(chatActions.updateChatList(arg?.chatList));
+    dispatch(chatActions.updateChatListLength(arg?.chatList?.length));
+    dispatch(chatActions.updatePersonalChatMap(arg?.personalChatMap));
   };
   return (
     <div className="h-screen w-screen flex flex-col ">
-      <Header
-        screenSize={screenSize}
-        setScreenSize={setScreenSize}
-      />
+      <Header screenSize={screenSize} setScreenSize={setScreenSize} />
       <div className="flex-grow sm:grid sm:grid-cols-10  ">
         {screenSize > 640 ? (
           <>
