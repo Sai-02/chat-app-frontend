@@ -10,7 +10,6 @@ const RoutesContainer = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={""} />
         <Route
           path={URL_PATHS.SIGNUP}
           element={<GuestComponent element={<Signup />} />}
