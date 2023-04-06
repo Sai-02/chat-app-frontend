@@ -9,8 +9,8 @@ import authSlice, { authActions } from "../../shared/redux/slices/authSlice";
 import io from "socket.io-client";
 import { SOCKET_EVENTS } from "../../shared/utils/constant";
 import { chatActions } from "../../shared/redux/slices/chatSlice";
-
-export const socket = io("http://localhost:5000/");
+const baseUrl: any = process.env.REACT_APP_BASE_URL;
+export const socket = io(baseUrl);
 const Dashboard = () => {
   const chatMap = useAppSelector((state) => state.chat.chatMap);
   const activeChatID = useAppSelector((state) => state.chat.activeChatID);
