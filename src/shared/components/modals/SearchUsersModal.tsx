@@ -61,6 +61,9 @@ const SearchUsersModal = (props: ISearchUsersModalProp) => {
       dispatch(chatActions.updateActiveChatID(chat._id));
       closeModal();
     }
+    if (window.innerWidth <= 640) {
+      dispatch(chatActions.updateIsChatVisible(true));
+    }
   };
   const getChatIDIfUserInPersonalChat = (username: any) => {
     for (let i = 0; i < personalChatMap.length; i++) {
