@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { chatActions } from "../../redux/slices/chatSlice";
+import { WINDOW_SIZE } from "../../utils/constant";
 interface ICreateChatModalProp {
   open: boolean;
   setOpen: Function;
@@ -18,8 +19,17 @@ const CreateChatModal = (props: ICreateChatModalProp) => {
   const [selectedUsers, setSelectedUsers] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
+  const [screenSize, setScreenSize] = useState(window.innerWidth);
   useEffect(() => {
     dispatch(chatActions.updateSearchedUsers([]));
+  }, []);
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      setScreenSize(window.innerWidth);
+    });
+    return () => {
+      window.removeEventListener("resize", () => {});
+    };
   }, []);
   const searchUsers = async () => {
     if (searchUsername.trim() === "") return;
@@ -71,6 +81,7 @@ const CreateChatModal = (props: ICreateChatModalProp) => {
         sx={{
           background: "transparent",
         }}
+        fullScreen={screenSize < WINDOW_SIZE.SM}
       >
         <div className="p-8  flex flex-col gap-6">
           <div className="flex justify-end">

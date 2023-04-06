@@ -62,7 +62,7 @@ const Signup = () => {
         background: "linear-gradient(119.36deg, #F3F7FF 0%, #FEE2F6 100%)",
       }}
     >
-      <div className="h-screen w-screen flex bg-[white] xs:bg-[transparent] xs:items-center justify-center">
+      <div className="h-screen w-screen grid bg-[white] xs:bg-[transparent] xs:items-center xs:justify-center">
         <div className="bg-white rounded p-4  xs:p-8 xs:shadow xs:w-[400px]">
           <h1 className="text-center text-[#10182F] font-bold text-[1.2rem] mb-[2rem] ">
             Sign up

@@ -15,6 +15,10 @@ export enum STATUS {
   SUCCESS = "SUCCESS",
 }
 
+export enum WINDOW_SIZE {
+  SM = 640,
+}
+
 export enum SOCKET_EVENTS {
   CONNECT = "connect",
   SEND_MESSAGE = "send_message",

@@ -1,10 +1,11 @@
 import { faSearch, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dialog } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { chatActions } from "../../redux/slices/chatSlice";
+import { WINDOW_SIZE } from "../../utils/constant";
 interface ISearchUsersModalProp {
   open: boolean;
   setOpen: Function;
@@ -12,6 +13,15 @@ interface ISearchUsersModalProp {
 const SearchUsersModal = (props: ISearchUsersModalProp) => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [users, setUsers] = useState([]);
+  const [screenSize, setScreenSize] = useState(window.innerWidth);
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      setScreenSize(window.innerWidth);
+    });
+    return () => {
+      window.removeEventListener("resize", () => {});
+    };
+  }, []);
   const user = useAppSelector((state) => state.auth.user);
   const personalChatMap = useAppSelector((state) => state.chat.personalChatMap);
   const dispatch = useAppDispatch();
@@ -60,8 +70,8 @@ const SearchUsersModal = (props: ISearchUsersModalProp) => {
   };
   return (
     <div className="">
-      <Dialog open={props.open}>
-        <div className="p-6 w-full min-w-[35rem] max-w-[95vw] overflow-hidden">
+      <Dialog open={props.open} fullScreen={screenSize < WINDOW_SIZE.SM}>
+        <div className="p-6 w-full sm:min-w-[35rem] max-w-[95vw] overflow-hidden">
           <div className="flex justify-end">
             <FontAwesomeIcon
               icon={faTimes}
@@ -81,7 +91,7 @@ const SearchUsersModal = (props: ISearchUsersModalProp) => {
                 onKeyDown={handleSubmit}
               />
             </div>
-            <div className="h-[9rem] overflow-auto px-3">
+            <div className="sm:h-[9rem] overflow-auto px-3">
               {users.map((val: any, index) => {
                 return (
                   <>
