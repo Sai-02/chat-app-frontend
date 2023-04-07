@@ -35,6 +35,20 @@ const Login = () => {
       return true;
     }
   };
+  const loginAsGuest = async () => {
+    try {
+      await dispatch(
+        authActions.loginUser({
+          password: "guest",
+          username: "guest",
+        })
+      );
+      toast.success("Logged in   !!");
+      navigate(URL_PATHS.DASHBOARD);
+    } catch (e: any) {
+      console.log(e);
+    }
+  };
   return (
     <div
       className="text-center w-screen h-screen"
@@ -79,12 +93,18 @@ const Login = () => {
               />
             </div>
           </div>
-          <div className="mt-[30px]">
+          <div className="mt-[30px] flex flex-col gap-4">
             <button
               className="bg-[#10182F] text-white py-3 w-full rounded"
               onClick={loginUser}
             >
               Sign in
+            </button>
+            <button
+              className="bg-blue-600 text-white py-3 w-full rounded"
+              onClick={loginAsGuest}
+            >
+              Continue as Guest
             </button>
           </div>
           <div className="mt-[35px] text-[#10182F] text-[14px]">
