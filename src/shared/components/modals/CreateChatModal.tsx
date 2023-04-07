@@ -89,6 +89,9 @@ const CreateChatModal = (props: ICreateChatModalProp) => {
       >
         <div className="p-8  flex flex-col gap-6">
           <div className="flex justify-end">
+            <div className="grow text-left text-xl font-semibold">
+              Create Group
+            </div>
             <FontAwesomeIcon
               icon={faClose}
               className="cursor-pointer"
