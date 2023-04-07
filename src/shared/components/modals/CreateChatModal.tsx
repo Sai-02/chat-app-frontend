@@ -59,6 +59,10 @@ const CreateChatModal = (props: ICreateChatModalProp) => {
       toast.error("Please enter the name of group");
       return;
     }
+    if (image === "") {
+      toast.error("Please add image of group");
+      return;
+    }
     setLoading(true);
     await dispatch(
       chatActions.createChat({
