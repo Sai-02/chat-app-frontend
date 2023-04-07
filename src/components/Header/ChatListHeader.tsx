@@ -99,7 +99,7 @@ const ChatListHeader = () => {
               "aria-labelledby": "basic-button",
             }}
           >
-            <div className="p-2">
+            <div className="px-2">
               <div className="cursor-pointer" onClick={handleLogOut}>
                 Logout
               </div>
