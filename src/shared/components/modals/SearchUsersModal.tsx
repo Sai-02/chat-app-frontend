@@ -92,6 +92,7 @@ const SearchUsersModal = (props: ISearchUsersModalProp) => {
                 value={searchKeyword}
                 onChange={(e) => setSearchKeyword(e.target.value)}
                 onKeyDown={handleSubmit}
+                placeholder="Search by username"
               />
             </div>
             <div className="sm:h-[9rem] overflow-auto px-3">
