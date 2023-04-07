@@ -9,13 +9,14 @@ import React, { useState } from "react";
 import CreateChatModal from "../../shared/components/modals/CreateChatModal";
 import SearchUsersModal from "../../shared/components/modals/SearchUsersModal";
 import Menu from "@mui/material/Menu";
-import { useAppDispatch } from "../../shared/redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../shared/redux/hooks";
 import { authActions } from "../../shared/redux/slices/authSlice";
 import { chatActions } from "../../shared/redux/slices/chatSlice";
 import { deleteAccessToken } from "../../shared/utils/helpers";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { URL_PATHS } from "../../shared/utils/constant";
+import ProfilePicModal from "../../shared/components/modals/ProfilePicModal";
 const ChatListHeader = () => {
   const [shouldOpenCreateChatModal, setShouldOpenCreateChatModal] =
     useState(false);
@@ -24,6 +25,9 @@ const ChatListHeader = () => {
   const [logoutMenuTarget, setLogoutMenuTarget] = useState<null | HTMLElement>(
     null
   );
+  const [shouldOpenProfilePicModal, setShouldOpenProfilePicModal] =
+    useState(false);
+  const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const open = Boolean(logoutMenuTarget);
@@ -48,12 +52,26 @@ const ChatListHeader = () => {
     toast.success("Logged out !");
     navigate(URL_PATHS.LOGIN);
   };
+  const isProfilePictureValid = () => {
+    return user?.profile_img?.trim() !== "";
+  };
+  const openProfilePicMOdal = () => {
+    setShouldOpenProfilePicModal(true);
+  };
   return (
     <>
       <div className="px-4 flex justify-between items-center ">
         <div className="">
           <div className="rounded-full w-10 h-10 bg-gray-200 grid place-items-center">
-            <FontAwesomeIcon icon={faUser} className="text-[white]" />
+            {isProfilePictureValid() ? (
+              <img
+                src={user?.profile_img}
+                className="rounded-full w-10 h-10 cursor-pointer"
+                onClick={openProfilePicMOdal}
+              />
+            ) : (
+              <FontAwesomeIcon icon={faUser} className="text-[white]" />
+            )}
           </div>
         </div>
         <div className="flex gap-6">
@@ -101,6 +119,15 @@ const ChatListHeader = () => {
         <SearchUsersModal
           open={shouldOpenSearchUsersModal}
           setOpen={setShouldOpenSearchUsersModal}
+        />
+      ) : (
+        ""
+      )}
+      {shouldOpenProfilePicModal ? (
+        <ProfilePicModal
+          open={shouldOpenProfilePicModal}
+          setOpen={setShouldOpenProfilePicModal}
+          image_url={user.profile_img}
         />
       ) : (
         ""
