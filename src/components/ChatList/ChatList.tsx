@@ -30,19 +30,27 @@ const ChatList = () => {
         </>
       ) : (
         <>
-          {chatList.map((val: any) => {
-            return (
-              <ChatListItem
-                key={val._id}
-                name={val.name}
-                latestMessage={val.latestMessage || ""}
-                id={val._id}
-                unreadMessageCount={val.unreadMessageCount}
-                isGroup={val.isGroup}
-                group_profile_pic={val.group_profile_pic}
-              />
-            );
-          })}
+          {chatList.length === 0 ? (
+            <div className="h-full w-full grid place-items-center">
+              No chats are there
+            </div>
+          ) : (
+            <>
+              {chatList.map((val: any) => {
+                return (
+                  <ChatListItem
+                    key={val._id}
+                    name={val.name}
+                    latestMessage={val.latestMessage || ""}
+                    id={val._id}
+                    unreadMessageCount={val.unreadMessageCount}
+                    isGroup={val.isGroup}
+                    group_profile_pic={val.group_profile_pic}
+                  />
+                );
+              })}
+            </>
+          )}
         </>
       )}
     </div>
