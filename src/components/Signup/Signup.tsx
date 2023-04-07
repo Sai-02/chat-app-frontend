@@ -13,6 +13,9 @@ const Signup = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const validateUserData = () => {
+    let regex = new RegExp(
+      "([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|\"([]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(.[!#-'*+/-9=?A-Z^-~-]+)*|[[\t -Z^-~]*])"
+    );
     if (name === "") {
       toast.error("Name can't be empty");
       return true;
@@ -23,6 +26,10 @@ const Signup = () => {
     }
     if (email === "") {
       toast.error("Email can't be empty");
+      return true;
+    }
+    if (!regex.test(email)) {
+      toast.error("Enter valid email !!");
       return true;
     }
     if (username === "") {
