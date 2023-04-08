@@ -74,7 +74,7 @@ const SearchUsersModal = (props: ISearchUsersModalProp) => {
   return (
     <div className="">
       <Dialog open={props.open} fullScreen={screenSize < WINDOW_SIZE.SM}>
-        <div className="p-6 w-full sm:min-w-[35rem] max-w-[95vw] overflow-hidden">
+        <div className="p-6 w-full sm:min-w-[35rem] max-w-[95vw] overflow-hidden mx-auto">
           <div className="flex justify-end">
             <FontAwesomeIcon
               icon={faTimes}
@@ -103,7 +103,12 @@ const SearchUsersModal = (props: ISearchUsersModalProp) => {
                       <></>
                     ) : (
                       <div className="flex gap-4 p-2 items-center">
-                        <div className="w-6 h-6  rounded-full bg-gray-100"></div>
+                        <div className="w-8 h-8  rounded-full bg-gray-100">
+                          <img
+                            src={val.profile_img}
+                            className="w-8 h-8  rounded-full"
+                          />
+                        </div>
                         <div className="grow text-center">
                           {val.name} ( {val.username} ){" "}
                         </div>
