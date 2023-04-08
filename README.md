@@ -4,7 +4,8 @@ This project is a simple chat app that provides functionality of personal and gr
 
 ## Frontend
 
-This repo contains the frontend of chat-app.
+This repo contains the frontend of chat-app.<br>
+Link to backend repo : [https://github.com/Sai-02/chat-app-backend](https://github.com/Sai-02/chat-app-backend)
 
 ## Tech Stack
 
