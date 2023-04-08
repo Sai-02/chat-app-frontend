@@ -1,46 +1,31 @@
-# Getting Started with Create React App
+# Chat App 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a simple chat app that provides functionality of personal and group chats. It sends and recieves messages in real time using sockets.
 
-## Available Scripts
+## Frontend
 
-In the project directory, you can run:
+This repo contains the frontend of chat-app.
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Tech stack used for frontend is :
+1. React.js
+2. TypeScript
+3. TailwindCSS
+4. Material UI
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm test`
+## Screenshots on Web Device
+![Screenshot (1322)](https://user-images.githubusercontent.com/56087847/230717661-7bebc0cc-5ec7-4a96-9c52-00ff52d2b067.png)
+![Screenshot (1323)](https://user-images.githubusercontent.com/56087847/230717663-0df8c439-68ca-40e3-86ca-35123eb46c75.png)
+![Screenshot (1324)](https://user-images.githubusercontent.com/56087847/230717666-e0be73f2-471e-4781-9041-ad702ab3428f.png)
+![Screenshot (1325)](https://user-images.githubusercontent.com/56087847/230717669-e2c8071c-7578-4dce-a20d-76ba54617414.png)
+![Screenshot (1326)](https://user-images.githubusercontent.com/56087847/230717697-71b3bcfb-5a79-44d9-8e2d-21ef0cccbf4d.png)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Screenshots on Mobile Device
 
-### `npm run build`
+<img src="https://user-images.githubusercontent.com/56087847/230717890-217bb1f4-0d66-4970-8a30-424edb8acf72.jpg" width="300" >
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<img src="https://user-images.githubusercontent.com/56087847/230717892-2e5aa6f8-8f8b-4689-8ad3-4315fb60110d.jpg" width="300" >
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+<img src="https://user-images.githubusercontent.com/56087847/230717894-0acb628a-9225-4519-b07c-5502661c0bcf.jpg" width="300" >
