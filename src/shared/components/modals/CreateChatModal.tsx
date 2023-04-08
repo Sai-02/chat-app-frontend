@@ -146,7 +146,11 @@ const CreateChatModal = (props: ICreateChatModalProp) => {
                           key={val.username}
                         >
                           <div className="w-10 h-10 rounded-full flex items-center  justify-center bg-gray-200 text-white">
-                            <FontAwesomeIcon icon={faUser} />
+                            <img
+                              src={val.profile_img}
+                              className="w-10 h-10 rounded-full"
+                              alt=""
+                            />
                           </div>
                           <div className="grow">
                             <h1 className="">{val.name}</h1>
