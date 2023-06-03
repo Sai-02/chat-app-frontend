@@ -77,7 +77,8 @@ const ChatListItem = (props: IChatListItemProps) => {
         </h2>
         <Tooltip title={props.latestMessage} placement="bottom-start">
           <p className="text-left text-ellipsis overflow-hidden  ">
-            {props.latestMessage}
+            {props.latestMessage.substring(0, 40) +
+              (props.latestMessage.length > 40 ? " .." : "")}
           </p>
         </Tooltip>
       </div>
