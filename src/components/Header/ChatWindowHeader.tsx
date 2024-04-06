@@ -62,17 +62,13 @@ const ChatWindowHeader = () => {
               />
             </div>
             <div className="w-10 h-10 rounded-full bg-gray-200 grid place-items-center text-white ">
-              {isImageURLValid() ? (
-                <img src={imageUrl} className="w-10 h-10 rounded-full" />
-              ) : (
-                <>
-                  {activeChat?.isGroup ? (
-                    <FontAwesomeIcon icon={faUsers} />
-                  ) : (
-                    <FontAwesomeIcon icon={faUser} />
-                  )}
-                </>
-              )}
+              <>
+                {activeChat?.isGroup ? (
+                  <FontAwesomeIcon icon={faUsers} />
+                ) : (
+                  <FontAwesomeIcon icon={faUser} />
+                )}
+              </>
             </div>
             <div className="text-left">
               <h3 className="text-sm font-semibold">

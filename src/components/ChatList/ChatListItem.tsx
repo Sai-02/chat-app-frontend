@@ -51,24 +51,13 @@ const ChatListItem = (props: IChatListItemProps) => {
     >
       <div className="">
         <div className="w-12 h-12 rounded-full bg-gray-200 grid place-items-center">
-          {isProfilePicValid() ? (
-            <img
-              src={props.group_profile_pic}
-              className="w-12 h-12 rounded-full"
-              alt=""
-            />
-          ) : (
-            <>
-              {props.isGroup ? (
-                <FontAwesomeIcon
-                  icon={faUsers}
-                  className="text-white w-6 h-6"
-                />
-              ) : (
-                <FontAwesomeIcon icon={faUser} className="text-white w-6 h-6" />
-              )}
-            </>
-          )}
+          <>
+            {props.isGroup ? (
+              <FontAwesomeIcon icon={faUsers} className="text-white w-6 h-6" />
+            ) : (
+              <FontAwesomeIcon icon={faUser} className="text-white w-6 h-6" />
+            )}
+          </>
         </div>
       </div>
       <div className="flex-grow max-w-full overflow-hidden">

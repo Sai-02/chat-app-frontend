@@ -63,15 +63,7 @@ const ChatListHeader = () => {
       <div className="px-4 flex justify-between items-center ">
         <div className="">
           <div className="rounded-full w-10 h-10 bg-gray-200 grid place-items-center">
-            {isProfilePictureValid() ? (
-              <img
-                src={user?.profile_img}
-                className="rounded-full w-10 h-10 cursor-pointer"
-                onClick={openProfilePicMOdal}
-              />
-            ) : (
-              <FontAwesomeIcon icon={faUser} className="text-[white]" />
-            )}
+            <FontAwesomeIcon icon={faUser} className="text-[white]" />
           </div>
         </div>
         <div className="flex gap-6">
